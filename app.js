@@ -1,16 +1,46 @@
+/* Animated Typing Effect */
+const typingElement = document.getElementById("typing");
 
-// Typing Effect
-const text = "Aspiring Web Developer passionate about building modern websites.";
-let index = 0;
+if (typingElement) {
+    const words = [
+        "Aspiring Front-End Developer",
+        "Creative Web Designer",
+        "Responsive Website Developer",
+        "Creative Problem Solver"
+    ];
 
-function typingEffect() {
-    if (index < text.length) {
-        document.getElementById("typing").innerHTML += text.charAt(index);
-        index++;
-        setTimeout(typingEffect, 60);
+    let wordIndex = 0;
+    let characterIndex = 0;
+    let deleting = false;
+
+    function typingEffect() {
+        const currentWord = words[wordIndex];
+
+        if (deleting) {
+            characterIndex--;
+        } else {
+            characterIndex++;
+        }
+
+        typingElement.textContent =
+            currentWord.substring(0, characterIndex);
+
+        let delay = deleting ? 40 : 80;
+
+        if (!deleting && characterIndex === currentWord.length) {
+            deleting = true;
+            delay = 1200;
+        } else if (deleting && characterIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            delay = 400;
+        }
+
+        setTimeout(typingEffect, delay);
     }
+
+    typingEffect();
 }
-typingEffect();
 
 
 // Scroll Reveal Animation
@@ -21,7 +51,7 @@ window.addEventListener("scroll", () => {
         const cardTop = card.getBoundingClientRect().top;
         const screenHeight = window.innerHeight;
 
-        if(cardTop < screenHeight - 100){
+        if (cardTop < screenHeight - 100) {
             card.style.opacity = "1";
             card.style.transform = "translateY(0)";
         }
@@ -37,7 +67,7 @@ cards.forEach(card => {
 
 // Contact Button Popup
 document.querySelectorAll(".btn").forEach(btn => {
-    btn.addEventListener("click", function(){
+    btn.addEventListener("click", function () {
         console.log("Button clicked");
     });
 });
@@ -55,7 +85,7 @@ window.addEventListener("scroll", () => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
 
-        if(pageYOffset >= sectionTop - 200){
+        if (pageYOffset >= sectionTop - 200) {
             current = section.getAttribute("id");
         }
     });
@@ -63,7 +93,7 @@ window.addEventListener("scroll", () => {
     navLinks.forEach(link => {
         link.classList.remove("active");
 
-        if(link.getAttribute("href") == "#" + current){
+        if (link.getAttribute("href") == "#" + current) {
             link.classList.add("active");
         }
     });
